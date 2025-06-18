@@ -4,7 +4,7 @@ import os
 from tkinter import ttk
 import subprocess
 
-
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 root = tk.Tk()
 root.wm_attributes("-transparentcolor", "white")   # if you need a transparent background
 root.attributes('-topmost', True)
@@ -77,17 +77,17 @@ def on_center_press(event):
         new_color = "#ffb2c6" if current_color == "white" else "white"
         canvas.itemconfig(petal, fill=new_color)
 def timer(event):
-    subprocess.Popen(["python", "jentimer.py"])
+    subprocess.Popen(["python", os.path.join(BASE_DIR, "jentimer.py")])
 def calculator(event):
-    subprocess.Popen(['python','jencalculator.py'])
+    subprocess.Popen(['python',os.path.join(BASE_DIR, 'jencalculator.py')])
 def notebook(event):
-    subprocess.Popen(['python','jennotebook.py'])
+    subprocess.Popen(['python',os.path.join(BASE_DIR, 'jennotebook.py')])
 def cover(event):
-    subprocess.Popen(["python", "jencover.py"])
+    subprocess.Popen(["python", os.path.join(BASE_DIR, "jencover.py")])
 def cryptogram(event):
-    subprocess.Popen(['python','jencryptogram.py'])
+    subprocess.Popen(['python',os.path.join(BASE_DIR, 'jencryptogram.py')])
 def todo(event):
-    subprocess.Popen(["python", "jentodo.py"])
+    subprocess.Popen(["python", os.path.join(BASE_DIR, "jentodo.py")])
 
     
 
