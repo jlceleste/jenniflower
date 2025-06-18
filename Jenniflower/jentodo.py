@@ -7,10 +7,7 @@ import os
 class Jen_todo:
     def check_path(self):
         try:
-            if os.path.exists(r"G:\My Drive\todo_lists.csv"):
-                path = r"G:\My Drive\todo_lists.csv"
-                return path
-            elif os.path.exists(r"todo_lists.csv"):
+            if os.path.exists(r"todo_lists.csv"):
                 path = r"todo_lists.csv"
                 return path
             
