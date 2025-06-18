@@ -46,6 +46,7 @@ class Jen_todo:
     class Task:
         def __init__(self, parent, list_name, task, done, estimated_time, notes, priority, due):
             self.parent = parent
+            self.file_path = parent.file_path 
             self.list_name = list_name
             self.task = task
             self.done = done
