@@ -1,5 +1,5 @@
 # Instructions:
 1. Download 'Jenniflower' directory
-3. Run 'jenniflower.py'
-4. Click on each petal
-<code style="color : name_color">text</code>
+2. Run 'jenniflower.py'
+3. Click on each petal
+4. Close window by right-clicking
