@@ -9,9 +9,7 @@ class JeNotebook:
         self.root.attributes('-topmost', True)
         self.root.geometry(f'300x500+0+0')
         try:
-            if os.path.exists(r"G:\My Drive\jen_notes.txt"):
-                path = r"G:\My Drive\jen_notes.txt"
-            elif os.path.exists(r"jen_notes.txt"):
+            if os.path.exists(r"jen_notes.txt"):
                 path = r"jen_notes.txt"
         except Exception as e:
             print(f"An error occurred: {e}")
