@@ -1,5 +1,4 @@
 # Instructions:
-1. Download 'Jenniflower' directory
-2. Run 'jenniflower.py'
-3. Click on each petal
-4. Close window by right-clicking
+1. Run 'jenniflower.py'
+2. Click on each petal
+3. Close window by right-clicking
