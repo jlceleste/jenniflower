@@ -1,0 +1,5 @@
+list_name,task,completed,estimated_time,notes,priority,due_date
+Work,name,False,estimated time,notes,Medium,due date
+Personal,name,False,estimated time,notes,Medium,due date
+Ideas,name,False,estimated time,notes,Medium,due date
+Check out,name,False,estimated time,notes,Medium,due date
