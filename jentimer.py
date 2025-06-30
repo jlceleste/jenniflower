@@ -1,3 +1,7 @@
+import time
+import datetime
+import tkinter as tk
+import math
 import os
 from tkinter import ttk
 import subprocess
@@ -300,6 +304,6 @@ class TimerOverlay:
         except ValueError:
             print("Invalid input for timer duration or dimensions.")
             
-root_timer = ttk.Tk()
+root_timer = tk.Tk()
 timer_app = TimerOverlay(root_timer)
 root_timer.mainloop()
