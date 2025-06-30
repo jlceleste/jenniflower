@@ -1,7 +1,3 @@
-import time
-import datetime
-import tkinter as tk
-import math
 import os
 from tkinter import ttk
 import subprocess
@@ -13,6 +9,7 @@ class TimerOverlay:
         self.root.overrideredirect(True)
         screen_width = root.winfo_screenwidth()
         screen_height = root.winfo_screenheight()
+        root.wm_attributes("-transparentcolor", "grey")  
         y=screen_height-25
         # Set the window to be borderless and always on top
         self.root.attributes('-topmost', True)
@@ -64,7 +61,24 @@ class TimerOverlay:
         # Bind mouse events to make the window moveable
         self.root.bind("<Button-1>", self.start_drag)
         self.root.bind("<B1-Motion>", self.drag)
+        self.collapsed = False
+        self.label.bind("<Button-1>", self.toggle_visibility)
+    def toggle_visibility(self, event=None):
+        self.collapsed = not self.collapsed
 
+        if self.collapsed:
+            # Dim the progress bar by setting it to grey
+            self.canvas.itemconfig(self.progress_bar, fill="grey")
+            self.canvas.config(bg="grey")
+            self.settings_button.grid_remove()
+        else:
+            # Restore original colors
+            self.canvas.itemconfig(self.progress_bar, fill="#ff0055")
+            self.label.config(fg="white")
+            self.canvas.config(bg="#ffb2c6")
+            self.canvas.grid()
+            self.settings_button.grid()
+    
     def format_time(self):
         """Converts time from seconds to a MM:SS format."""
         mins, secs = divmod(self.remaining, 60)
