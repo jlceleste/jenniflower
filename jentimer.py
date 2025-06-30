@@ -300,6 +300,6 @@ class TimerOverlay:
         except ValueError:
             print("Invalid input for timer duration or dimensions.")
             
-root_timer = tk.Tk()
+root_timer = ttk.Tk()
 timer_app = TimerOverlay(root_timer)
 root_timer.mainloop()
