@@ -10,14 +10,21 @@ p1="#ff0055"
 p2="#fd6f95"
 p3="#ffb2c6"
 p4="#ffe5ee"
-p5="#ffe5ee"
 if os.path.exists(r"G:\My Drive\calendar_file.csv"):
     file_path = r"G:\My Drive\calendar_file.csv"
 else:
     file_path = r"calendar_file.csv"
 today = date.today()
-today = today.strftime("%d/%m/%Y")
-current_month ="August"
+today = today.strftime("%m/%d/%Y")
+today = today.split("/")
+todays=[]
+for item in today:
+    todays.append(str(int(item)))
+today="/".join(todays)
+to = date.today()
+to = to.strftime("%d/%B")
+to=to.split('/')
+current_month =to[1]
 months=[]
 i = ""
 with open(file_path, 'r',newline="") as csvfile:
@@ -68,14 +75,16 @@ rarrow = ImageTk.PhotoImage(original_image)
 original_image = Image.open("larrow.png")
 original_image = original_image.resize((int(211/4), int(76/4)))
 larrow = ImageTk.PhotoImage(original_image)
-to = date.today()
-to = to.strftime("%d/%B")
-to=to.split('/')
+
 def render_month(current_month):
+    global star_nums
     for button in buttons:
-        button.destroy()
+            button.destroy()
     #title.destroy()
     day_nums=[]
+    date_nums=[]
+    star_month_nums=[]
+    star_nums={}
     st=0
     with open(file_path, 'r',newline="") as csvfile:
         reader = csv.DictReader(csvfile)
@@ -100,6 +109,9 @@ def render_month(current_month):
                         st = 6
                     
                 day_nums.append(str(row['date']).split("/")[1])
+                date_nums.append(str(row['date']))
+                star_month_nums.append(row['star'])
+            star_nums[row['date']]=row['star']
     #print(day_nums)
     title_canvas = tk.Canvas(root, height=45, width=800/7*5, bg=p2, highlightthickness=0)
     title_canvas.grid(row=0,column=1,columnspan=5, sticky = 'news')
@@ -122,12 +134,49 @@ def render_month(current_month):
         #d.grid(row=1, column = i)
     place = st
     #print(st)
-    for day in day_nums:
-        d= tk.Button(root, activeforeground=p3, activebackground= p2, text=day, bd=7, bg=p4, fg=p2, font=("Cambria", 15), anchor='ne', command=lambda d=day, c=current_month:open_day(d,c))
+    for i, day in enumerate(day_nums):
+        if date_nums[i] == today:
+            bg1= p2
+            fg1=p4
+        else:
+            bg1=p4
+            fg1=p2
+        if len(list(star_month_nums)[i]) > 0:
+            obg=p2
+        else:
+            obg=bg1
+        d= tk.Button(root, activeforeground=p3, activebackground= p2, text=day, bd=7, bg=bg1, fg=fg1, font=("Cambria", 15), anchor='ne', command=lambda d=day, c=current_month:open_day(d,c))
         d.grid(row=2+(int(place/7)), column= place % 7, sticky='news',padx=10,pady=5)
+        c= tk.Canvas(root, height= 20,width=20, bg=bg1,highlightthickness=0)
+        c.grid(row=2+(int(place/7)), column= place % 7, sticky='sw',padx=10+7,pady=5+7)
+        o=c.create_oval(5,5,15,15, fill=obg, width=0,tags = f'star{day}')
+        c.tag_bind(f'star{day}',"<Button-1>", lambda e, d =date_nums[i], t = star_nums[date_nums[i]]: (star(d,t)))
+        buttons.append(c)
+        #print(d.winfo_width(), d.winfo_height())
         place=place+1
         buttons.append(d)
 render_month(current_month)
+def star(date, text):
+    global month_idx
+    try:
+        mark.destroy()
+    except UnboundLocalError:
+        jen="idk"
+    mark =tk.Toplevel(root)
+    mark.configure(bg=p3,highlightthickness=5,highlightcolor='white',highlightbackground='white') 
+    mark.wm_attributes("-transparentcolor", "grey")  # Transparent background (Windows only)
+    mark.attributes('-topmost', True)
+    mark.overrideredirect(True)
+    mark.geometry(f"{250}x{125}+{x+125}+{y}")
+    mark.columnconfigure(0,weight=1)
+    t = tk.Entry(mark, font=("Modern No. 20", 30), justify= 'center',bg=p4,fg=p2,insertbackground=p2)
+    t.grid(row=0,column=0, columnspan =3, padx=10,pady=10)
+    t.insert(0, text)
+    sb= tk.Button(mark, text="save", font=("Modern No. 20", 10), fg = p3, bg=p1, command = lambda : (save_star(date,t.get()), update_star(),mark.destroy(), render_month(months[month_idx]) ))
+    sb.grid(row=1,column=0,pady=5)
+def save_star(d, t):
+    global star_nums
+    star_nums[d]=t
 def left(event=None):
     global month_idx, hours
     month_idx = (month_idx -1) % len(months)
@@ -307,7 +356,24 @@ def update_dict(a, d=False):
         writer.writeheader()
         writer.writerows(rows)
     os.replace(temp_file_path, file_path)
+    
+def update_star():
+    global star_nums
+    temp_file_path = file_path + '.tmp'
+    rows = []
+    header = []
+    with open(file_path, 'r', newline="") as infile:
+        reader = csv.DictReader(infile)
+        header = reader.fieldnames
+        for row in reader:
+            rows.append(row)
+    for row in rows:
+            row['star'] = star_nums.get(row['date'])
+    with open(temp_file_path, 'w', newline="") as outfile:
+        writer = csv.DictWriter(outfile, fieldnames=header)
+        writer.writeheader()
+        writer.writerows(rows)
+    os.replace(temp_file_path, file_path)
 open_day(str(int(to[0])),to[1])
-
 
 root.mainloop()
