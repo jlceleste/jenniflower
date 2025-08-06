@@ -145,7 +145,7 @@ def render_month(current_month):
             obg=p2
         else:
             obg=bg1
-        d= tk.Button(root, activeforeground=p3, activebackground= p2, text=day, bd=7, bg=bg1, fg=fg1, font=("Cambria", 15), anchor='ne', command=lambda d=day, c=current_month:open_day(d,c))
+        d= tk.Button(root, activeforeground=fg1, activebackground= bg1, text=day, bd=7, bg=bg1, fg=fg1, font=("Cambria", 15), anchor='ne', command=lambda d=day, c=current_month:open_day(d,c))
         d.grid(row=2+(int(place/7)), column= place % 7, sticky='news',padx=10,pady=5)
         c= tk.Canvas(root, height= 20,width=20, bg=bg1,highlightthickness=0)
         c.grid(row=2+(int(place/7)), column= place % 7, sticky='sw',padx=10+7,pady=5+7)
@@ -252,10 +252,10 @@ class Item:
             outline=p4
             fg=p2
         self.box = canvas.create_rectangle(30+bd,hours.get(start)+bd2,250-bd,hours.get(end)-bd2-1, fill=fill,width=5, tags = f"click{name}", outline = outline)
-        canvas.tag_bind(f"click{name}","<Button-1>", lambda e: self.change_item())
         self.font_size=min(int(hours.get(end)-hours.get(start))-5, 15)
         ##print(font_size)
         self.title =canvas.create_text((30+bd+250-bd)/2,(hours.get(start)+bd2 +hours.get(end)-bd2)/2,anchor = 'center',text=name, font=("Modern No. 20", self.font_size), fill=fg,tags=f"click{name}")
+        canvas.tag_bind(f"click{name}","<Button-1>", lambda e: self.change_item())
         self.name=name
         self.start=start
         self.end=end
@@ -319,9 +319,9 @@ class Item:
                 outline=p4
                 fg=p2
             self.box = canvas.create_rectangle(30+bd,hours.get(start)+bd2,250-bd,hours.get(end)-bd2-1, fill=fill,width=5, tags = f"click{name}", outline = outline)
-            canvas.tag_bind(f"click{name}","<Button-1>", lambda e: self.change_item())
             self.font_size=min(int(hours.get(end)-hours.get(start))-5, 15)
             self.title =canvas.create_text((30+bd+250-bd)/2,(hours.get(start)+bd2 +hours.get(end)-bd2)/2,anchor = 'center',text=name, font=("Modern No. 20", self.font_size), fill=fg,tags=f"click{name}")
+            canvas.tag_bind(f"click{name}","<Button-1>", lambda e: self.change_item())
             update_dict(self.get_item())
     def get_item(self):
         a = {self.name : " ".join([self.start,self.end,self.which])}
